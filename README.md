@@ -1,6 +1,6 @@
-# Angular Style Guide
+# Angular Style Guide - Flavored for the Lab of Ornithology
 
-*Opinionated Angular style guide for teams by [@john_papa](//twitter.com/john_papa)*
+*Opinionated Angular style guide for teams, originally by [@john_papa](//twitter.com/john_papa)* and now with additions from our local teams.
 
 If you are looking for an opinionated style guide for syntax, conventions, and structuring Angular applications, then step right in. These styles are based on my development experience with [Angular](//angularjs.org), presentations, [Pluralsight training courses](http://pluralsight.com/training/Authors/Details/john-papa) and working in teams.
 
@@ -18,7 +18,7 @@ Many of my styles have been from the many pair programming sessions [Ward Bell](
 ## See the Styles in a Sample App
 While this guide explains the *what*, *why* and *how*, I find it helpful to see them in practice. This guide is accompanied by a sample application that follows these styles and patterns. You can find the [sample application (named modular) here](https://github.com/johnpapa/ng-demos) in the `modular` folder. Feel free to grab it, clone it, or fork it. [Instructions on running it are in its readme](https://github.com/johnpapa/ng-demos/tree/master/modular).
 
-##Translations
+##Translations - are here from the original form, but we're not updating them
 [Translations of this Angular style guide](https://github.com/johnpapa/angular-styleguide/tree/master/i18n) are maintained by the community and can be found here.
 
 ## Table of Contents
@@ -91,9 +91,11 @@ While this guide explains the *what*, *why* and *how*, I find it helpful to see 
   // someController.js
   angular
       .module('app')
-      .controller('SomeController', SomeController);
+      .controller('SomeController',  function SomeController() { 
 
-  function SomeController() { }
+});
+
+ 
   ```
 
   ```javascript
@@ -102,9 +104,11 @@ While this guide explains the *what*, *why* and *how*, I find it helpful to see 
   // someFactory.js
   angular
       .module('app')
-      .factory('someFactory', someFactory);
+      .factory('someFactory', function someFactory() { 
 
-  function someFactory() { }
+});
+
+  
   ```
 
 **[Back to top](#table-of-contents)**
@@ -113,11 +117,13 @@ While this guide explains the *what*, *why* and *how*, I find it helpful to see 
 ### JavaScript Closures
 ###### [Style [Y010](#style-y010)]
 
-  - Wrap Angular components in an Immediately Invoked Function Expression (IIFE).
+  ~~- Wrap Angular components in an Immediately Invoked Function Expression (IIFE).
 
   *Why?*: An IIFE removes variables from the global scope. This helps prevent variables and function declarations from living longer than expected in the global scope, which also helps avoid variable collisions.
 
-  *Why?*: When your code is minified and bundled into a single file for deployment to a production server, you could have collisions of variables and many global variables. An IIFE protects you against both of these by providing variable scope for each file.
+  *Why?*: When your code is minified and bundled into a single file for deployment to a production server, you could have collisions of variables and many global variables. An IIFE protects you against both of these by providing variable scope for each file.~~
+  
+  We prefer to declare functions in the angular declarations, I see no benefit in readability, and it removes the necessity for all these IIFEs
 
   ```javascript
   /* avoid */
@@ -146,26 +152,22 @@ While this guide explains the *what*, *why* and *how*, I find it helpful to see 
    */
 
   // logger.js
-  (function() {
       'use strict';
 
       angular
           .module('app')
-          .factory('logger', logger);
-
-      function logger() { }
-  })();
+          .factory('logger', function logger() { });
 
   // storage.js
-  (function() {
       'use strict';
 
       angular
           .module('app')
-          .factory('storage', storage);
+          .factory('storage', function storage() {
+          
+          });
 
-      function storage() { }
-  })();
+      
   ```
 
   - Note: For brevity only, the rest of the examples in this guide may omit the IIFE syntax.
@@ -232,9 +234,11 @@ While this guide explains the *what*, *why* and *how*, I find it helpful to see 
   /* recommended */
   angular
       .module('app')
-      .controller('SomeController', SomeController);
+      .controller('SomeController', function SomeController() { 
+      
+      
+  });
 
-  function SomeController() { }
   ```
 
 ### Setting vs Getting
@@ -250,7 +254,8 @@ While this guide explains the *what*, *why* and *how*, I find it helpful to see 
 ### Named vs Anonymous Functions
 ###### [Style [Y024](#style-y024)]
 
-  - Use named functions instead of passing an anonymous function in as a callback.
+  ~~- Use named functions instead of passing an anonymous function in as a callback.~~
+  We use named functions and pass them directly to the callback. This preserves the enhanced debuggability, but keeps things more concise. 
 
   *Why?*: This produces more readable code, is much easier to debug, and reduces the amount of nested callback code.
 
@@ -268,18 +273,20 @@ While this guide explains the *what*, *why* and *how*, I find it helpful to see 
   // dashboard.js
   angular
       .module('app')
-      .controller('Dashboard', Dashboard);
+      .controller('Dashboard', function Dashboard() {
+      
+  });
 
-  function Dashboard() { }
   ```
 
   ```javascript
   // logger.js
   angular
       .module('app')
-      .factory('logger', logger);
+      .factory('logger',   function logger() { 
+  
+  });
 
-  function logger() { }
   ```
 
 **[Back to top](#table-of-contents)**
@@ -296,6 +303,8 @@ While this guide explains the *what*, *why* and *how*, I find it helpful to see 
   *Why?*: It promotes the use of binding to a "dotted" object in the View (e.g. `customer.name` instead of `name`), which is more contextual, easier to read, and avoids any reference issues that may occur without "dotting".
 
   *Why?*: Helps avoid using `$parent` calls in Views with nested controllers.
+  
+  *Why?*: Because angular 2.0 won't even have scopes - (https://www.airpair.com/angularjs/posts/preparing-for-the-future-of-angularjs#2-3-4-scope)
 
   ```html
   <!-- avoid -->
