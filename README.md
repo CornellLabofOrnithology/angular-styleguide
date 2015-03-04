@@ -1483,7 +1483,7 @@ While this guide explains the *what*, *why* and *how*, I find it helpful to see 
     angular.module('app').controller('Dashboard', d);function d(a, b) { }
     ```
 
-### Manually Identify Dependencies
+### ~~Manually Identify Dependencies~~ No, just use grunt, details are coming
 ###### [Style [Y091](#style-y091)]
 
   - Use `$inject` to manually identify your dependencies for Angular components.
