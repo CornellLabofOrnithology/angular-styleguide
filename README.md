@@ -215,7 +215,7 @@ While this guide explains the *what*, *why* and *how*, I find it helpful to see 
       ]);
   ```
 
-### Getters
+### Getters 
 ###### [Style [Y022](#style-y022)]
 
   - When using a module, avoid using a variable and instead use chaining with the getter syntax.
@@ -350,7 +350,7 @@ While this guide explains the *what*, *why* and *how*, I find it helpful to see 
 ### controllerAs with vm
 ###### [Style [Y032](#style-y032)]
 
-  - Use a capture variable for `this` when using the `controllerAs` syntax. Choose a consistent variable name such as `vm`, which stands for ViewModel.
+  - Use a capture variable for `this` when using the `controllerAs` syntax. Choose a consistent variable name such as `vm`, which stands for ViewModel. (We could consider "self" or "me", but if vm is standard, maybe lets stick to that)
 
   *Why?*: The `this` keyword is contextual and when used within a function inside a controller may change its context. Capturing the context of `this` avoids encountering this problem.
 
@@ -378,7 +378,7 @@ While this guide explains the *what*, *why* and *how*, I find it helpful to see 
   var vm = this;
   ```
 
-  Note: When creating watches in a controller using `controller as`, you can watch the `vm.*` member using the following syntax. (Create watches with caution as they add more load to the digest cycle.)
+  Note: When creating watches in a controller using `controller as`, you *can* watch the `vm.*` member using the following syntax. (Create watches with caution as they add more load to the digest cycle.)
 
   ```html
   <input ng-model="vm.title"/>
@@ -396,10 +396,12 @@ While this guide explains the *what*, *why* and *how*, I find it helpful to see 
   }
   ```
 
-### Bindable Members Up Top
+### Bindable Members Up Top - *NEEDS REVIEW*
 ###### [Style [Y033](#style-y033)]
 
-  - Place bindable members at the top of the controller, alphabetized, and not spread through the controller code.
+  ~~- Place bindable members at the top of the controller, alphabetized, and not spread through the controller code.~~
+  
+  -I don't think this is necessary. One, I see no reason to define the functions separately. Two, I prefer, the controller functions to be laid out in order of timing and priority. Things that needs to happen immediately are loaded immediately. 
 
     *Why?*: Placing bindable members at the top makes it easy to read and helps you instantly identify which members of the controller can be bound and used in the View.
 
