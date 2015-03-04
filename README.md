@@ -972,7 +972,7 @@ While this guide explains the *what*, *why* and *how*, I find it helpful to see 
   }
   ```
 
-### Return a Promise from Data Calls
+### Return a Promise from Data Calls - _Review_ - we mainly used $resource not raw http
 ###### [Style [Y061](#style-y061)]
 
   - When calling a data service that returns a promise such as $http, return a promise in your calling function too.
