@@ -347,10 +347,10 @@ While this guide explains the *what*, *why* and *how*, I find it helpful to see 
   }
   ```
 
-### controllerAs with vm
+### controllerAs with self
 ###### [Style [Y032](#style-y032)]
 
-  - Use a capture variable for `this` when using the `controllerAs` syntax. Choose a consistent variable name such as `vm`, which stands for ViewModel. (We could consider "self" or "me", but if vm is standard, maybe lets stick to that)
+  - [cm325] Use a capture variable for `this` when using the `controllerAs` syntax. Choose a consistent variable name such as `self`. (We could consider "me", or "vm" (viewmodel), but i think "self" is very readable).
 
   *Why?*: The `this` keyword is contextual and when used within a function inside a controller may change its context. Capturing the context of `this` avoids encountering this problem.
 
@@ -401,7 +401,7 @@ While this guide explains the *what*, *why* and *how*, I find it helpful to see 
 
   ~~- Place bindable members at the top of the controller, alphabetized, and not spread through the controller code.~~
   
-  -I don't think this is necessary. One, I see no reason to define the functions separately. Two, I prefer, the controller functions to be laid out in order of timing and priority. Things that needs to happen immediately are loaded immediately. 
+  -I don't think this is necessary. One, I see no reason to define the functions separately. Two, I prefer, the controller functions to be laid out in order of timing and priority. Things that needs to happen immediately are loaded immediately. It also avoid triplication of the naming, yuck. 
 
     *Why?*: Placing bindable members at the top makes it easy to read and helps you instantly identify which members of the controller can be bound and used in the View.
 
@@ -487,7 +487,7 @@ While this guide explains the *what*, *why* and *how*, I find it helpful to see 
       vm.title = 'Sessions';
   ```
 
-### Function Declarations to Hide Implementation Details
+### ~~Function Declarations to Hide Implementation Details~~ [cm325] - again see [Style [Y033](#style-y033)]
 ###### [Style [Y034](#style-y034)]
 
   - Use function declarations to hide implementation details. Keep your bindable members up top. When you need to bind a function in a controller, point it to a function declaration that appears later in the file. This is tied directly to the section Bindable Members Up Top. For more details see [this post](http://www.johnpapa.net/angular-function-declarations-function-expressions-and-readable-code).
@@ -697,28 +697,28 @@ While this guide explains the *what*, *why* and *how*, I find it helpful to see 
   // service
   angular
       .module('app')
-      .service('logger', logger);
+      .service('logger', function logger() {
+          this.logError = function(msg) {
+            /* */
+          };
+  });
 
-  function logger() {
-    this.logError = function(msg) {
-      /* */
-    };
-  }
+  
   ```
 
   ```javascript
   // factory
   angular
       .module('app')
-      .factory('logger', logger);
-
-  function logger() {
+      .factory('logger', function logger() {
       return {
           logError: function(msg) {
             /* */
           }
      };
-  }
+  });
+
+  
   ```
 
 **[Back to top](#table-of-contents)**
@@ -739,6 +739,8 @@ While this guide explains the *what*, *why* and *how*, I find it helpful to see 
 
 ### Accessible Members Up Top
 ###### [Style [Y052](#style-y052)]
+
+  - [cm325] - yes, we want var-ed properties up top, but otherwise, avoid name duplication, and dont use this pattern. 
 
   - Expose the callable members of the service (its interface) at the top, using a technique derived from the [Revealing Module Pattern](http://addyosmani.com/resources/essentialjsdesignpatterns/book/#revealingmodulepatternjavascript).
 
@@ -1085,11 +1087,11 @@ While this guide explains the *what*, *why* and *how*, I find it helpful to see 
    */
   angular
       .module('sales.widgets')
-      .directive('acmeSalesCustomerInfo', salesCustomerInfo);
-
-  function salesCustomerInfo() {
+      .directive('acmeSalesCustomerInfo',  function salesCustomerInfo() {
       /* implementation details */
-  }
+  });
+
+ 
   ```
 
   ```javascript
@@ -1102,11 +1104,11 @@ While this guide explains the *what*, *why* and *how*, I find it helpful to see 
    */
   angular
       .module('shared.widgets')
-      .directive('acmeSharedSpinner', sharedSpinner);
-
-  function sharedSpinner() {
+      .directive('acmeSharedSpinner',  function sharedSpinner() {
       /* implementation details */
-  }
+  });
+
+ 
   ```
 
     Note: There are many naming options for directives, especially since they can be used in narrow or wide scopes. Choose one that makes the directive and its file name distinct and clear. Some examples are below, but see the naming section for more recommendations.
@@ -1127,8 +1129,10 @@ While this guide explains the *what*, *why* and *how*, I find it helpful to see 
 
     Note: Avoid `ng-` as these are reserved for Angular directives. Research widely used directives to avoid naming conflicts, such as `ion-` for the [Ionic Framework](http://ionicframework.com/).
 
-### Restrict to Elements and Attributes
+### Restrict to Elements and Attributes - [cm325] or maybe just Attributes
 ###### [Style [Y074](#style-y074)]
+
+  - [cm325] custom elements won't validate as html5. They look nice, but can be problematic. I say we stick to attributes for our directives. 
 
   - When creating a directive that makes sense as a stand-alone element, allow restrict `E` (custom element) and optionally restrict `A` (custom attribute). Generally, if it could be its own control, `E` is appropriate. General guideline is allow `EA` but lean towards implementing as an element when it's stand-alone and as an attribute when it enhances its existing DOM element.
 
@@ -1165,8 +1169,10 @@ While this guide explains the *what*, *why* and *how*, I find it helpful to see 
 
   ```html
   <!-- recommended -->
-  <my-calendar-range></my-calendar-range>
   <div my-calendar-range></div>
+  
+  <!--review, maybe? -->
+  <my-calendar-range></my-calendar-range>
   ```
 
   ```javascript
@@ -1220,7 +1226,7 @@ While this guide explains the *what*, *why* and *how*, I find it helpful to see 
           },
           link: linkFunc,
           controller: ExampleController,
-            controllerAs: 'vm',
+            controllerAs: 'self',
             bindToController: true // because the scope is isolated
         };
 
@@ -1483,7 +1489,7 @@ While this guide explains the *what*, *why* and *how*, I find it helpful to see 
     angular.module('app').controller('Dashboard', d);function d(a, b) { }
     ```
 
-### ~~Manually Identify Dependencies~~ No, just use grunt, details are coming
+### ~~Manually Identify Dependencies~~ No, just use grunt and ng-annotate
 ###### [Style [Y091](#style-y091)]
 
   - Use `$inject` to manually identify your dependencies for Angular components.
@@ -1527,7 +1533,7 @@ While this guide explains the *what*, *why* and *how*, I find it helpful to see 
     }
     ```
 
-    Note: When your function is below a return statement the $inject may be unreachable (this may happen in a directive). You can solve this by either moving the $inject above the return statement or by using the alternate array injection syntax.
+    Note: When your function is below a return statement the $inject may be unreachable (this may happen in a directive). You can solve this by either moving the $inject above the return statement or by using the alternate array injection syntax. [cm325] - yet another reason not to use this style pattern
 
     Note: [`ng-annotate 0.10.0`](https://github.com/olov/ng-annotate) introduced a feature where it moves the `$inject` to where it is reachable.
 
@@ -1826,8 +1832,8 @@ While this guide explains the *what*, *why* and *how*, I find it helpful to see 
 ###### [Style [Y120](#style-y120)]
 
   - Use consistent names for all components following a pattern that describes the component's feature then (optionally) its type. My recommended pattern is `feature.type.js`. There are 2 names for most assets:
-    * the file name (`avengers.controller.js`)
-    * the registered component name with Angular (`AvengersController`)
+    * the file name (`avengers.ctrl.js`)
+    * the registered component name with Angular (`AvengersCtrl`)
 
     *Why?*: Naming conventions help provide a consistent way to find content at a glance. Consistency within the project is vital. Consistency with a team is important. Consistency across a company provides tremendous efficiency.
 
@@ -1864,12 +1870,12 @@ While this guide explains the *what*, *why* and *how*, I find it helpful to see 
      */
 
     // controllers
-    avengers.controller.js
-    avengers.controller.spec.js
+    avengers.ctrl.js
+    avengers.ctrl.spec.js
 
     // services/factories
-    logger.service.js
-    logger.service.spec.js
+    logger.srvc.js
+    logger.srvc.spec.js
 
     // constants
     constants.js
@@ -1884,7 +1890,7 @@ While this guide explains the *what*, *why* and *how*, I find it helpful to see 
     // configuration
     avengers.config.js
 
-    // directives
+    // directives - note that directive is not abbreviated. This is because on the "avenger-profile" will be used in the name. 
     avenger-profile.directive.js
     avenger-profile.directive.spec.js
     ```
@@ -1936,9 +1942,11 @@ While this guide explains the *what*, *why* and *how*, I find it helpful to see 
     // avengers.controller.js
     angular
         .module
-        .controller('HeroAvengers', HeroAvengers);
+        .controller('HeroAvengersCtrl',  function () { 
+        
+    });
 
-    function HeroAvengers() { }
+  
     ```
 
 ### Controller Name Suffix
@@ -1971,9 +1979,8 @@ While this guide explains the *what*, *why* and *how*, I find it helpful to see 
     // avengers.controller.js
     angular
         .module
-        .controller('AvengersController', AvengersController);
+        .controller('AvengersCtrl', function() { });
 
-    function AvengersController() { }
     ```
 
 ### Factory Names
@@ -1988,13 +1995,34 @@ While this guide explains the *what*, *why* and *how*, I find it helpful to see 
      * recommended
      */
 
-    // logger.service.js
+    // logger.srvc.js
     angular
         .module
-        .factory('logger', logger);
-
-    function logger() { }
+        .factory('LoggerSrvc', function () { });
     ```
+    
+    -Factories also produce a few very specialized types, like caches and $resources. We give them consistent names too
+    
+     ```javascript
+    /**
+     * recommended
+     */
+
+    // site.srvc.js
+    angular
+        .module
+        .factory('SiteCache', function () { 
+          return $cacheFactory(....
+        });
+        
+    //site.rsrc    
+    angular
+        .module
+        .factory('SiteRsrc', function () { 
+          return $resource(....
+        });
+    ```
+   
 
 ### Directive Component Names
 ###### [Style [Y126](#style-y126)]
