@@ -1189,7 +1189,7 @@ While this guide explains the *what*, *why* and *how*, I find it helpful to see 
   }
   ```
 
-### Directives and ControllerAs
+### Directives and ControllerAs - [cm325] - and something about not using controllers outside of directives - https://www.airpair.com/angularjs/posts/preparing-for-the-future-of-angularjs#3-3-match-controllers-with-directives
 ###### [Style [Y075](#style-y075)]
 
   - Use `controller as` syntax with a directive to be consistent with using `controller as` with view and controller pairings.
