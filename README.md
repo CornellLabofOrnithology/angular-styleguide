@@ -57,14 +57,14 @@ While this guide explains the *what*, *why* and *how*, I find it helpful to see 
 
 ## General
   - Angular 2.0 won't use jqlite, so let's stop using any jquery execept in specific directives. 
-  - ^When possible, use angular.element(), etc. instead of jQuery lookups and DOM manipulation.
-  - ^Don't wrap element inside of $(). All AngularJS elements are already jqobjects.
-  - ^Do not pollute your $scope/this. Only add functions and variables that are being used in the templates. In other words, don't put all of your functions & variables on the scope. If you have methods that are private to your controller, never to be used in the view/template, there is no reason to put them on the scope/this. 
-  - ^Do not use $ prefix for the names of variables, properties and methods. This prefix is reserved for AngularJS usage.
-  - ^When you need to set the src of an image dynamically use ng-src instead of src with {{}}.
-  - ^When you need to set the href of an anchor tag dynamically use ng-href instead of href with {{}}
-  - ^Avoid using $rootScope. It's ok to use $rootScope for emitting an event, but storing data on the $rootScope should be avoided. Use a service for your data instead.
-  - ^When possible, avoid using "magic strings" by using Angular's constant service. More details on this [blog post](http://jmcunningham.net/2014/09/03/angularjs-use-constant-service-instead-of-magic-strings/).
+  - When possible, use angular.element(), etc. instead of jQuery lookups and DOM manipulation.
+  - Don't wrap element inside of $(). All AngularJS elements are already jqobjects.
+  - Do not pollute your $scope/this. Only add functions and variables that are being used in the templates. In other words, don't put all of your functions & variables on the scope. If you have methods that are private to your controller, never to be used in the view/template, there is no reason to put them on the scope/this. 
+  - Do not use $ prefix for the names of variables, properties and methods. This prefix is reserved for AngularJS usage.
+  - When you need to set the src of an image dynamically use ng-src instead of src with {{}}.
+  - When you need to set the href of an anchor tag dynamically use ng-href instead of href with {{}}
+  - Avoid using $rootScope. It's ok to use $rootScope for emitting an event, but storing data on the $rootScope should be avoided. Use a service for your data instead.
+  - When possible, avoid using "magic strings" by using Angular's constant service. More details on this [blog post](http://jmcunningham.net/2014/09/03/angularjs-use-constant-service-instead-of-magic-strings/).
 
 
 
