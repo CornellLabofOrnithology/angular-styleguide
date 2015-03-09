@@ -291,7 +291,8 @@ While this guide explains the *what*, *why* and *how*, I find it helpful to see 
 
 **[Back to top](#table-of-contents)**
 
-## Controllers
+## Controllers - Don't use them unless they're in a directive 
+### http://teropa.info/blog/2014/10/24/how-ive-improved-my-angular-apps-by-banning-ng-controller.html
 
 ### controllerAs View Syntax
 ###### [Style [Y030](#style-y030)]
