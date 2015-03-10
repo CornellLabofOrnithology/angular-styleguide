@@ -1163,7 +1163,9 @@ While this guide explains the *what*, *why* and *how*, I find it helpful to see 
 
   - Provide a short, unique and descriptive directive prefix such as `acmeSalesCustomerInfo` which would be declared in HTML as `acme-sales-customer-info`.
 
-    *Why?*: The unique short prefix identifies the directive's context and origin. For example a prefix of `cc-` may indicate that the directive is part of a CodeCamper app while `acme-` may indicate a directive for the Acme company.
+    *Why?*: The unique short prefix identifies the directive's context and origin. For example a prefix of `cc-` may indicate that the directive is part of a CodeCamper app while `acme-` may indicate a directive for the Acme company. 
+    
+    *Note*: For components that could be truly reusable across many applications, I propose a "clo-" prefix. For directives that are really specific to the application in which they reside, a "ym-" or "nw-" for yardmap and nestwatch respectively could be appropriate. For even more specificity, I propose a nested namespace approach, using names like "clo-cmn-" for a project that could be shared among many clo projects, in this case a community module. 
 
     Note: Avoid `ng-` as these are reserved for Angular directives. Research widely used directives to avoid naming conflicts, such as `ion-` for the [Ionic Framework](http://ionicframework.com/).
 
