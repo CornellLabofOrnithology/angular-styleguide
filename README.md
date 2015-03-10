@@ -2493,6 +2493,7 @@ Unit testing helps maintain clean code, as such I included some of my recommenda
 ### Events
 ###### [Style [Y191](#style-y191)]
 Publish and subscribe events, and use constants for event names
+ 
   *Why?*: Eventing can be hard to track down if its spread throughout an application. Even worse are event name typos that throw off code - http://twofuckingdevelopers.com/2014/06/angularjs-best-practices-001-constants/
 
   - **$rootScope**: Use only `$emit` as an application-wide event bus and remember to unbind listeners
