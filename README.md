@@ -24,6 +24,7 @@ While this guide explains the *what*, *why* and *how*, I find it helpful to see 
 ## Table of Contents
 
   1. [General] (#general)
+  1. [Performance] (#performance)
   1. [Single Responsibility](#single-responsibility)
   1. [IIFE](#iife)
   1. [Modules](#modules)
@@ -67,6 +68,27 @@ While this guide explains the *what*, *why* and *how*, I find it helpful to see 
   - When possible, avoid using "magic strings" by using Angular's constant service. More details on this [blog post](http://jmcunningham.net/2014/09/03/angularjs-use-constant-service-instead-of-magic-strings/).
 
 
+## Performance
+
+  - **One-time binding syntax**: In newer versions of Angular (v1.3.0-beta.10+), use the one-time binding syntax `{{ ::value }}` where it makes sense
+
+    ```html
+    // avoid
+    <h1>{{ vm.title }}</h1>
+
+    // recommended
+    <h1>{{ ::vm.title }}</h1>
+    ```
+    
+    *Why?* : Binding once removes the `$$watchers` count after the `undefined` variable becomes resolved, thus reducing performance in each dirty-check. For earlier versions of angular, either try to avoid cases of one-time binding, or use bind-once - https://github.com/Pasvaz/bindonce
+    
+  - **Consider $scope.$digest**: Use `$scope.$digest` over `$scope.$apply` where it makes sense. Only child scopes will update
+
+    ```javascript
+    $scope.$digest();
+    ```
+    
+    *Why?* : `$scope.$apply` will call `$rootScope.$digest`, which causes the entire application `$$watchers` to dirty-check again. Using `$scope.$digest` will dirty check current and child scopes from the initiated `$scope`
 
 
 ## Single Responsibility
