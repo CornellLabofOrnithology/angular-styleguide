@@ -33,6 +33,7 @@ While this guide explains the *what*, *why* and *how*, I find it helpful to see 
   1. [Factories](#factories)
   1. [Data Services](#data-services)
   1. [Directives](#directives)
+  1. [Filters](#filters)
   1. [Resolving Promises for a Controller](#resolving-promises-for-a-controller)
   1. [Manual Annotating for Dependency Injection](#manual-annotating-for-dependency-injection)
   1. [Minification and Annotation](#minification-and-annotation)
@@ -1350,6 +1351,39 @@ While this guide explains the *what*, *why* and *how*, I find it helpful to see 
   ```
 
 **[Back to top](#table-of-contents)**
+
+## Filters
+
+  - **Global filters**: Create global filters using `angular.filter()` only. Never use local filters inside Controllers/Services
+
+    ```javascript
+    // avoid
+    function SomeCtrl () {
+      this.startsWithLetterA = function (items) {
+        return items.filter(function (item) {
+          return /^a/i.test(item.name);
+        });
+      };
+    }
+    angular
+      .module('app')
+      .controller('SomeCtrl', SomeCtrl);
+
+    // recommended
+    function startsWithLetterA () {
+      return function (items) {
+        return items.filter(function (item) {
+          return /^a/i.test(item.name);
+        });
+      };
+    }
+    angular
+      .module('app')
+      .filter('startsWithLetterA', startsWithLetterA);
+    ```
+
+  - This enhances testing and reusability
+
 
 ## Resolving Promises for a Controller
 
