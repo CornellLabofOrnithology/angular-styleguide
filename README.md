@@ -1171,6 +1171,19 @@ While this guide explains the *what*, *why* and *how*, I find it helpful to see 
     *Note*: For components that could be truly reusable across many applications, I propose a "clo-" prefix. For directives that are really specific to the application in which they reside, a "ym-" or "nw-" for yardmap and nestwatch respectively could be appropriate. For  cases that require even more specificity, I propose a nested namespace approach, using names like "ym-socl-" for directives that would only be appropriate for the social module inside of yardmap. 
 
     Note: Avoid `ng-` as these are reserved for Angular directives. Research widely used directives to avoid naming conflicts, such as `ion-` for the [Ionic Framework](http://ionicframework.com/).
+    
+ - Also, continue to follow this style when naming additional parameters on an element that are intended for the directive. 
+  
+ ```html
+  <!-- avoid -->
+  <div data-nw-group-list data-styles="active"></div>
+  ```
+  
+  ```html
+  <!-- recommended -->
+  <div data-nw-group-list data-group-styles="active"></div>
+  ```
+  
 
 ### Restrict to Elements and Attributes - [cm325] or maybe just Attributes
 ###### [Style [Y074](#style-y074)]
