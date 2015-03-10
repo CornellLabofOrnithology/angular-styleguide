@@ -1938,6 +1938,7 @@ While this guide explains the *what*, *why* and *how*, I find it helpful to see 
     logger.js
     logger.service.js
     loggerService.js
+    
     ```
 
     ```javascript
@@ -1952,6 +1953,9 @@ While this guide explains the *what*, *why* and *how*, I find it helpful to see 
     // services/factories
     logger.srvc.js
     logger.srvc.spec.js
+    
+    //Special Factories that only return a $resource
+    group.rsrc.js
 
     // constants
     constants.js
@@ -1966,20 +1970,22 @@ While this guide explains the *what*, *why* and *how*, I find it helpful to see 
     // configuration
     avengers.config.js
 
-    // directives - note that directive is not abbreviated. This is because on the "avenger-profile" will be used in the name. 
+    // directives - note that directive is not abbreviated. This is because on the "avenger-profile" will be used in the name of the attribute/element but "directive" will not. 
     avenger-profile.directive.js
     avenger-profile.directive.spec.js
     ```
 
   Note: Another common convention is naming controller files without the word `controller` in the file name such as `avengers.js` instead of `avengers.controller.js`. All other conventions still hold using a suffix of the type. Controllers are the most common type of component so this just saves typing and is still easily identifiable. I recommend you choose 1 convention and be consistent for your team.
+  
+  Note: For the clo team, use AvengersCtrl
 
     ```javascript
     /**
      * recommended
      */
     // Controllers
-    avengers.js
-    avengers.spec.js
+    avengers.ctrl.js
+    avengers.ctrl.spec.js
     ```
 
 ### Test File Names
