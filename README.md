@@ -44,6 +44,7 @@ While this guide explains the *what*, *why* and *how*, I find it helpful to see 
   1. [Modularity](#modularity)
   1. [Startup Logic](#startup-logic)
   1. [Angular $ Wrapper Services](#angular--wrapper-services)
+  1. [Events](#events) 
   1. [Testing](#testing)
   1. [Animations](#animations)
   1. [Comments](#comments)
@@ -2487,6 +2488,65 @@ Unit testing helps maintain clean code, as such I included some of my recommenda
 
     // and so on
     ```
+
+
+### Events
+###### [Style [Y191](#style-y191)]
+Publish and subscribe events, and use constants for event names
+  *Why?*: Eventing can be hard to track down if its spread throughout an application. Even worse are event name typos that throw off code - http://twofuckingdevelopers.com/2014/06/angularjs-best-practices-001-constants/
+
+  - **$rootScope**: Use only `$emit` as an application-wide event bus and remember to unbind listeners
+
+    ```javascript
+    // all $rootScope.$on listeners
+    $rootScope.$emit('customEvent', data);
+    ```
+
+  - Hint: `$rootScope.$on` listeners are different from `$scope.$on` listeners and will always persist, so they need destroying when the relevant `$scope` fires the `$destroy` event
+
+    ```javascript
+    // call the closure
+    var unbind = $rootScope.$on('customEvent'[, callback]);
+    $scope.$on('$destroy', unbind);
+    ```
+
+  - For multiple `$rootScope` listeners, use an Object literal and loop each one on the `$destroy` event to unbind all automatically
+
+    ```javascript
+    var rootListeners = {
+      'customEvent1': $rootScope.$on('customEvent1'[, callback]),
+      'customEvent2': $rootScope.$on('customEvent2'[, callback]),
+      'customEvent3': $rootScope.$on('customEvent3'[, callback])
+    };
+    for (var unbind in rootListeners) {
+      $scope.$on('$destroy', rootListeners[unbind]);
+    }
+    ```
+    
+- For event names, use constants
+
+    ```javascript
+   angular
+    .module('myApp')
+    .constant("MY_APP_EVENTS", {
+        "CLICK": "click",
+        "DESTROY": "$destroy",
+        "GET_NOTIFICATION": "myNewNotification"
+    });
+    
+    angular.module('myApp').directive('myButton',
+    ['MY_APP_EVENTS', function(MY_APP_EVENTS) {
+        return {
+            restrict: "E",
+            link: function(scope, elem, attrs) {
+                elem.on(MY_APP_EVENTS.CLICK, function() {
+		            	// Do something
+		            });
+            }
+        };
+    }]);
+    ```
+
 
 ### Testing Library
 ###### [Style [Y191](#style-y191)]
