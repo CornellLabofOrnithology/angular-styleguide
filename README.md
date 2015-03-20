@@ -83,6 +83,8 @@ While this guide explains the *what*, *why* and *how*, I find it helpful to see 
     ```
     
     *Why?* : Binding once removes the `$$watchers` count after the `undefined` variable becomes resolved, thus reducing performance in each dirty-check. For earlier versions of angular, either try to avoid cases of one-time binding, or use bind-once - https://github.com/Pasvaz/bindonce
+
+    *Why?* : Because sometimes you also only ever need one-way data binding as well. This is more like the React approach, where the dom only responds to data changes. We can use one-time binding to achieve this using tactics like "ng-if" which will rebuild our one-time binded templates. See - http://www.peterbe.com/plog/one-way-data-bindings-in-angularjs-1.3
     
   - **Consider $scope.$digest**: Use `$scope.$digest` over `$scope.$apply` where it makes sense. Only child scopes will update
 
@@ -1154,12 +1156,16 @@ While this guide explains the *what*, *why* and *how*, I find it helpful to see 
 
     Note: There are many naming options for directives, especially since they can be used in narrow or wide scopes. Choose one that makes the directive and its file name distinct and clear. Some examples are below, but see the naming section for more recommendations.
 
-### Manipulate DOM in a Directive
+### Manipulate DOM in a Directive, Creating and Composing Components
 ###### [Style [Y072](#style-y072)]
+  -Directives are the basic unit of component in the application. As such, they are of course the correct place to do DOM manipulation, but they are also the primary means to create reusable (or one off) components for the page. Given that we are aiming to create our components solely with directives, and not with bloated controllers, see this angular help section on composing directives:
+
+https://docs.angularjs.org/guide/directive#creating-directives-that-communicate
 
   - When manipulating the DOM directly, use a directive. If alternative ways can be used such as using CSS to set styles or the [animation services](https://docs.angularjs.org/api/ngAnimate), Angular templating, [`ngShow`](https://docs.angularjs.org/api/ng/directive/ngShow) or [`ngHide`](https://docs.angularjs.org/api/ng/directive/ngHide), then use those instead. For example, if the directive simply hides and shows, use ngHide/ngShow.
 
     *Why?*: DOM manipulation can be difficult to test, debug, and there are often better ways (e.g. CSS, animations, templates)
+
 
 ### Provide a Unique Directive Prefix
 ###### [Style [Y073](#style-y073)]
