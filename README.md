@@ -66,6 +66,7 @@ While this guide explains the *what*, *why* and *how*, I find it helpful to see 
   - Do not use $ prefix for the names of variables, properties and methods. This prefix is reserved for AngularJS usage.
   - When you need to set the src of an image dynamically use ng-src instead of src with {{}}.
   - When you need to set the href of an anchor tag dynamically use ng-href instead of href with {{}}
+  - Use ngBind over raw {{}}, the html is valid, and looks better when previewing the raw template. Avoids any chance of content flash too. 
   - Avoid using $rootScope. It's ok to use $rootScope for emitting an event, but storing data on the $rootScope should be avoided. Use a service for your data instead.
   - When possible, avoid using "magic strings" by using Angular's constant service. More details on this [blog post](http://jmcunningham.net/2014/09/03/angularjs-use-constant-service-instead-of-magic-strings/).
 
@@ -1288,7 +1289,7 @@ https://docs.angularjs.org/guide/directive#creating-directives-that-communicate
           },
           link: linkFunc,
           controller: ExampleController,
-            controllerAs: 'self',
+            controllerAs: 'ec', //use an abbreviation based on the controller name
             bindToController: true // because the scope is isolated
         };
 
@@ -1934,6 +1935,8 @@ https://docs.angularjs.org/guide/directive#creating-directives-that-communicate
 
     *Why?*: The naming conventions should simply help you find your code faster and make it easier to understand.
 
+  - Use camelCase for all variable names. 
+  
 ### Feature File Names
 ###### [Style [Y121](#style-y121)]
 
